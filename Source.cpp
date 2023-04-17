@@ -35,8 +35,6 @@ private:
 	vector<long long> vals;
 
 	vector<Node*> pts;
-
-	vector<Node*> adj;
 	vector<vector<int>> entrances;
 	vector<int> cycles = {};
 	int maxDepth = 0;
@@ -77,32 +75,6 @@ public:
 	// Displays output results of graph operations
 	void disp()
 	{
-		/*
-		vector<int>done = {};
-		for (int i = 0; i < adj.size(); i++)
-		{
-			Node* cur = adj[i];
-			while (find(done.begin(), done.end(), cur -> key) == done.end())
-			{
-
-				cout << cur->key << ">";
-				done.push_back(cur->key);
-				cur = cur->next;
-				
-			}
-			cout << cur->depth << endl << endl;
-		
-		}
-		cout << "number of nodes: " << pts.size() << endl;
-
-		// Display "Table" of land and depth values
-		cout << "Depth and Land Values for each seed: " << endl;
-		for (int j = 0; j < pts.size(); j++)
-		{
-			cout << pts[j]->key << " | " << pts[j]->depth << " | " << pts[j]->land << endl;
-		}
-		cout << endl << endl;
-		*/
 	
 		cout << "Maximum depth: " << maxDepth << endl;
 		for (int i = 0; i < cycles.size(); i++)
@@ -120,21 +92,6 @@ public:
 		
 	}
 
-	void adjList()
-	{
-		for (int i = 0; i < pts.size(); i++)
-		{
-			pts[i]->next->isLast = false;
-		}
-		for (int j = 0; j < pts.size(); j++)
-		{
-			if (pts[j]->isLast == true)
-			{
-				adj.push_back(pts[j]);
-			}
-		}
-	
-	}
 	void print(int n)
 	{
 		string dir = "\StoredGraphs\\";
@@ -204,6 +161,7 @@ public:
 			
 			// Define iterator that finds the index of the land value in cycles vector
 			vector<int>::iterator I = find(cycles.begin(), cycles.end(), pts[n]->land);
+
 			// define i and j to be the indexed land value and the depth value of the current node
 			int i = distance(cycles.begin(), I);
 			int j = pts[n]->depth;
@@ -246,8 +204,7 @@ int main(int argc, char* argv[])
 			i++;
 		g.addNode(i);
 	}
-	// Populates the adjascency list for display. Should be restructured to not run in main.
-	g.adjList();
+	
 	// Sets the land value of all nodes in graph. Should be restructured to not run in main.
 	g.setLand();
 	// Calculates the semi-direct entrances table as well as setting values such as max-depth
