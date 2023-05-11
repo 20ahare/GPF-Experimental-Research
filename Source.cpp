@@ -9,18 +9,20 @@
 
 using namespace std;
 
+// Global Variables 
 int m;
 int a;
 
-
+//Function Definitions
 long long op(long long in);
 long long MaxPrime(long long num);
 
-
+// Directed Graph Class to organize data
 class Graph
 {
 private:
 
+	// Define a node structure to populate graph
 	struct Node
 	{
 		long long key = -1;
@@ -29,16 +31,20 @@ private:
 		int depth = -1;
 		int land = -1;
 	};
+	// Initialize variables and structures
 
-
-	// unnecessary vector, stores key values in same order as vals, can be taken out of functions and rewritten as time allows
+	// Unnecessary vector, stores key values in same order as vals, can be taken out of functions and rewritten as time allows
 	vector<long long> vals;
 
+	// Stores node pointers of all nodes in graph
 	vector<Node*> pts;
-
+	// Adj list of graph
 	vector<Node*> adj;
+	// List of entrances, i.e nodes with in-degree=0
 	vector<vector<int>> entrances;
+	// List of key values that are in limit cycles
 	vector<int> cycles = {};
+	// largest depth value found 
 	int maxDepth = 0;
 
 public:
@@ -76,34 +82,7 @@ public:
 
 	// Displays output results of graph operations
 	void disp()
-	{
-		/*
-		vector<int>done = {};
-		for (int i = 0; i < adj.size(); i++)
-		{
-			Node* cur = adj[i];
-			while (find(done.begin(), done.end(), cur -> key) == done.end())
-			{
-
-				cout << cur->key << ">";
-				done.push_back(cur->key);
-				cur = cur->next;
-				
-			}
-			cout << cur->depth << endl << endl;
-		
-		}
-		cout << "number of nodes: " << pts.size() << endl;
-
-		// Display "Table" of land and depth values
-		cout << "Depth and Land Values for each seed: " << endl;
-		for (int j = 0; j < pts.size(); j++)
-		{
-			cout << pts[j]->key << " | " << pts[j]->depth << " | " << pts[j]->land << endl;
-		}
-		cout << endl << endl;
-		*/
-	
+	{	
 		cout << "Maximum depth: " << maxDepth << endl;
 		for (int i = 0; i < cycles.size(); i++)
 		{
@@ -120,6 +99,7 @@ public:
 		
 	}
 
+	// Creates adjacency list for graph calculations
 	void adjList()
 	{
 		for (int i = 0; i < pts.size(); i++)
@@ -133,8 +113,8 @@ public:
 				adj.push_back(pts[j]);
 			}
 		}
-	
 	}
+	// Generates reference file with edge list, each node's properties, and entrance table
 	void print(int n)
 	{
 		string dir = "\StoredGraphs\\";
@@ -169,6 +149,7 @@ public:
 		output.close();
 	}
 
+	// Sets landing values for all nodes
 	void setLand()
 	{
 		for (long long i = 0; i < pts.size(); i++)
@@ -181,9 +162,9 @@ public:
 			pts[i]->land = index->key;
 		}
 	}
+	// Finalizes Depth and Land values accross all nodes in graph
 	void calcData()
 	{
-	
 		for (long long i = 0; i < pts.size(); i++)
 		{
 			Node* cur = pts[i];
@@ -218,28 +199,27 @@ public:
 };
 
 
-
+// Main function that executes at run-time
 int main(int argc, char* argv[])
 {
+	// Initialize graph and max seed value
 	Graph g;
-
 	long long n;
 
-	// Request uper limit of prime numbers from user
-
+	// Request Iterator Values m, a from user
 	cout << "Iterator is in the form GPF(p * m + a) = p'" << endl<< endl << "Please enter values for m and a respectively:";
 	cout << endl << "m = ";
 	cin >> m;
 	cout << "a = ";
 	cin >> a;
 
-
+	// Request upper limit of prime numbers from user
 	cout << "Searching all primes, p, from 2 to ";
 	cin >> n;
 	cout << endl;
 
 	cout << "Please wait while processing data." << endl << endl;
-
+	// For all numbers up to user n, attempt to add node to graph
 	for (long long i = 2; i < n; i++)
 	{
 		while (MaxPrime(i) != i)
@@ -259,14 +239,13 @@ int main(int argc, char* argv[])
 	g.disp();
 
 	
-
+	// Hold shell's auto close for User to view data
 	cout << endl << endl << endl;
-
-
 	system("pause");
 	
 }
 
+// Defines Iterator Function
 long long op(long long in)
 {
 	long long out = in * m + a;
@@ -274,6 +253,7 @@ long long op(long long in)
 	
 }
 
+// Greatest Prime Factor Function
 // Credit to alphacodingckills.com
 long long MaxPrime(long long num) 
 {
