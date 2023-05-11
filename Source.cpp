@@ -97,6 +97,7 @@ public:
 		
 	}
 
+	// Exports data to newly generated file
 	void print(int n)
 	{
 		string dir = "\StoredGraphs\\";
